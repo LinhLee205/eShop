@@ -1,4 +1,4 @@
-Dưới đây là bản sạch để bạn copy thẳng vào README.md trên GitHub:
+
 🛒 ****eShop - Blazor Server Application**
 👩‍🎓 Thông tin sinh viên
 Thông tin	Nội dung
