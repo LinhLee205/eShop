@@ -76,17 +76,17 @@ Vai trò của các thành phần
 - eShop.Web: project Blazor Server chính, chịu trách nhiệm khởi chạy và cấu hình toàn bộ ứng dụng.
 🛠️ Công nghệ sử dụng
 ```text
-Công nghệ	Vai trò
-C#	Ngôn ngữ lập trình chính
-.NET 6	Nền tảng phát triển ứng dụng
-Blazor Server	Xây dựng ứng dụng web
-Razor Components	Xây dựng các thành phần giao diện
-SQL Server	Lưu trữ dữ liệu
-Dapper	Hỗ trợ truy xuất dữ liệu từ SQL Server
+Công nghệ	            Vai trò
+C#	                    Ngôn ngữ lập trình chính
+.NET 6	                Nền tảng phát triển ứng dụng
+Blazor Server	        Xây dựng ứng dụng web
+Razor Components	    Xây dựng các thành phần giao diện
+SQL Server	            Lưu trữ dữ liệu
+Dapper	                Hỗ trợ truy xuất dữ liệu từ SQL Server
 Dependency Injection	Quản lý và cung cấp các service trong ứng dụng
-LocalStorage	Lưu trữ trạng thái giỏ hàng
-Bootstrap	Hỗ trợ xây dựng và định dạng giao diện
-HTML/CSS	Thiết kế giao diện website
+LocalStorage	        Lưu trữ trạng thái giỏ hàng
+Bootstrap	            Hỗ trợ xây dựng và định dạng giao diện
+HTML/CSS	            Thiết kế giao diện website
 ```
 
 🔄 Luồng hoạt động
