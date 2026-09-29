@@ -32,6 +32,7 @@ Dự án mô phỏng các chức năng cơ bản của một hệ thống thươ
 - Theo dõi danh sách các đơn hàng đã được xử lý.
 🏗️ Cấu trúc dự án
 Dự án được chia thành các thành phần chính như sau:
+'''text
 eShop
 │
 ├── eShop.CoreBusiness
@@ -64,7 +65,7 @@ eShop
     ├── wwwroot
     ├── appsettings.json
     └── Program.cs
-
+'''
 Vai trò của các thành phần
 - eShop.CoreBusiness: chứa các đối tượng và logic nghiệp vụ chính của hệ thống.
 - eShop.Usecases: chứa các chức năng và luồng xử lý nghiệp vụ của ứng dụng.
@@ -87,6 +88,7 @@ HTML/CSS	Thiết kế giao diện website
 
 🔄 Luồng hoạt động
 Quy trình mua hàng cơ bản của hệ thống:
+'''text
 Khách hàng
     ↓
 Xem / tìm kiếm sản phẩm
@@ -104,6 +106,7 @@ Tạo đơn hàng
 Quản trị viên tiếp nhận đơn hàng
     ↓
 Kiểm tra và xử lý đơn hàng
+'''
 
 🎯 Mục tiêu thực hiện
 Thông qua việc xây dựng dự án eShop, sinh viên có thể vận dụng các kiến thức đã học vào quá trình phát triển một ứng dụng web hoàn chỉnh, bao gồm:
