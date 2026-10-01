@@ -1,40 +1,330 @@
 ﻿@page "/product/{id:int}"
+
 @inject IAddProductToCartUseCase addProductToCartUseCase
 @using eShop.Usecases.ViewProductScreen.interfaces
 @inject IViewProductUseCases viewProduct
 
-<h3>Product Details</h3>
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-        <img src="@product.ImageLink" />
-        <h5 class="card-title">@product.Name</h5>
-        <h6 class="card-subtitle mb-2 text-muted">@product.Brand</h6>
-        <hr />
-        <p>
-            Price: <label style="color:darkred">@product.Price.ToString("c")</label>
-        </p>
-        <p class="card-text">@product.Description</p>
-        <button class="btn btn-primary"
-                @onclick="AddToCart">
-            Add to Cart
-        </button>
+@if (product != null)
+{
+    <div class="product-detail-page">
+
+        <h2 class="page-title">Product Details</h2>
+
+        <div class="product-detail-card">
+
+            <!-- Bên trái: ảnh -->
+            <div class="product-image-section">
+
+                <img src="@product.ImageLink"
+                     class="detail-image"
+                     alt="@product.Name" />
+
+            </div>
+
+
+            <!-- Bên phải: thông tin -->
+            <div class="product-info-section">
+
+                <h2 class="product-title">
+                    @product.Name
+                </h2>
+
+                <p class="product-brand">
+                    @product.Brand
+                </p>
+
+                <hr />
+
+                <div class="price-section">
+                    <span class="price-label">Price:</span>
+
+                    <span class="product-price">
+                        @product.Price.ToString("c")
+                    </span>
+                </div>
+
+                <div class="description-section">
+
+                    <h5>Description</h5>
+
+                    <p class="product-description">
+                        @product.Description
+                    </p>
+
+                </div>
+
+                <button class="btn btn-primary add-cart-button"
+                        @onclick="AddToCart">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Quay lại -->
+        <div class="back-section">
+
+            <NavLink href="products"
+                     class="back-link">
+                ← Back to Product Page
+            </NavLink>
+
+        </div>
+
     </div>
-</div>
-<NavLink href="products">Back to Product Page</NavLink>
+}
 
 
 @code {
+
     private Product product;
+
     [Parameter]
     public int Id { get; set; }
+
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
         if (Id > 0)
+        {
             product = viewProduct.Execute(Id);
+        }
     }
+
+
     private void AddToCart()
     {
         addProductToCartUseCase.Execute(Id);
     }
+
 }
+
+
+<style>
+
+    /* =============================
+           TOÀN BỘ TRANG
+           ============================= */
+
+    .product-detail-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 30px 25px 50px 25px;
+    }
+
+
+    /* =============================
+           TIÊU ĐỀ
+           ============================= */
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+
+    /* =============================
+           CARD CHI TIẾT
+           ============================= */
+
+    .product-detail-card {
+        display: flex;
+        gap: 50px;
+        padding: 35px;
+        background-color: white;
+        border: 1px solid #e1e5e8;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    }
+
+
+    /* =============================
+           PHẦN ẢNH
+           ============================= */
+
+    .product-image-section {
+        width: 45%;
+        min-height: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fafafa;
+        border-radius: 16px;
+    }
+
+
+    .detail-image {
+        width: 90%;
+        height: 380px;
+        object-fit: contain;
+        padding: 20px;
+    }
+
+
+    /* =============================
+           THÔNG TIN SẢN PHẨM
+           ============================= */
+
+    .product-info-section {
+        width: 55%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 10px;
+    }
+
+
+    /* Tên */
+    .product-title {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 8px;
+    }
+
+
+    /* Thương hiệu */
+    .product-brand {
+        color: #777;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+
+    /* =============================
+           GIÁ
+           ============================= */
+
+    .price-section {
+        margin: 18px 0 25px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+
+    .price-label {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+
+    .product-price {
+        color: #d71920;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+
+    /* =============================
+           MÔ TẢ
+           ============================= */
+
+    .description-section {
+        margin-bottom: 25px;
+    }
+
+
+        .description-section h5 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+
+    .product-description {
+        color: #555;
+        font-size: 16px;
+        line-height: 1.7;
+        text-align: left;
+    }
+
+
+    /* =============================
+           ADD TO CART
+           ============================= */
+
+    .add-cart-button {
+        width: 200px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: auto;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+
+        .add-cart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 123, 255, 0.20);
+        }
+
+
+    /* =============================
+           BACK
+           ============================= */
+
+    .back-section {
+        margin-top: 22px;
+    }
+
+
+    .back-link {
+        color: #198754;
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+    /* =============================
+           MOBILE
+           ============================= */
+
+    @@media (max-width: 768px) {
+
+        .product-detail-card {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+
+        .product-image-section {
+            width: 100%;
+            min-height: 300px;
+        }
+
+
+        .detail-image {
+            height: 280px;
+        }
+
+
+        .product-info-section {
+            width: 100%;
+        }
+
+
+        .product-title {
+            font-size: 23px;
+        }
+
+
+        .add-cart-button {
+            width: 100%;
+        }
+    }
+
+</style>

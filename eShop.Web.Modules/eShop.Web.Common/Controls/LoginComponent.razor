@@ -1,0 +1,153 @@
+﻿@inject NavigationManager navigationManager
+
+<h3>Login</h3>
+<br />
+
+@if (loginViewModel != null)
+{
+    <EditForm Model="loginViewModel" OnValidSubmit="HandleValidSubmit" class="form-line">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+
+        <div class="form-group">
+            <label for="name">User Name</label>
+            <InputText id="name"
+                       @bind-Value="loginViewModel.UsersName"
+                       class="form-control">
+            </InputText>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="password-wrapper">
+                <InputText id="password"
+                           @bind-Value="loginViewModel.Password"
+                           type="@PasswordInputType"
+                           class="form-control password-input">
+                </InputText>
+
+                <button type="button"
+                        class="password-toggle"
+                        @onclick="TogglePassword"
+                        title="Show/Hide password">
+
+                    @if (showPassword)
+                    {
+                        <!-- Eye slash -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="20"
+                             height="20"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="M3 3l18 18"></path>
+                            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                            <path d="M9.9 4.2A10.4 10.4 0 0 1 12 4c5 0 9 4 10 8a12.7 12.7 0 0 1-2 3.8"></path>
+                            <path d="M6.6 6.6C4.4 8 2.8 9.9 2 12c1 4 5 8 10 8 1.5 0 2.9-.4 4.1-1"></path>
+                        </svg>
+                    }
+                    else
+                    {
+                        <!-- Eye -->
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="20"
+                             height="20"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    }
+
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary login-btn">
+            Login
+        </button>
+    </EditForm>
+}
+
+<style>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-input {
+        padding-right: 45px;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+        .password-toggle:hover {
+            color: #212529;
+        }
+
+        .password-toggle:focus {
+            outline: none;
+        }
+
+    .login-btn {
+        margin-top: 5px;
+        border-radius: 8px;
+        padding: 8px 20px;
+    }
+</style>
+
+@code {
+    private LoginViewModel loginViewModel;
+
+    private bool showPassword = false;
+
+    private string PasswordInputType
+    {
+        get
+        {
+            return showPassword ? "text" : "password";
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        loginViewModel = new LoginViewModel();
+    }
+
+    private void TogglePassword()
+    {
+        showPassword = !showPassword;
+    }
+
+    private void HandleValidSubmit()
+    {
+        navigationManager.NavigateTo(
+            $"/authenticate?user={loginViewModel.UsersName}&pwd={loginViewModel.Password}",
+            true);
+    }
+}

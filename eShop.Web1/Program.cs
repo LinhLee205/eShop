@@ -1,4 +1,5 @@
-using eShop.DataStore.HardCode;
+//using eShop.DataStore.HardCode;
+using eShop.DataStore.SQL.Dapper;
 using eShop.ShoppingCart.LocalStorage;
 using eShop.Usecases;
 using eShop.Usecases.PluginInterfaces.DataStore;
@@ -22,22 +23,37 @@ using eShop.Usecases.AdminPortal.OutstandingOrderScreen;
 using eShop.Usecases.AdminPortal.OrderDetailScreen.Interfaces;
 using eShop.Usecases.AdminPortal.OrderDetailScreen;
 using eShop.Usecases.AdminPortal.ProcessedOrdersScreen;
+using eShop.DataStore.SQL.Dapper.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//add services.AddController
+builder.Services.AddControllers();
+builder.Services.AddAuthentication("eShop.CookieAuth")
+    .AddCookie("eShop.CookieAuth", config =>
+    {
+        config.Cookie.Name = "eShop.CookieAuth";
+        config.LoginPath = "/authenticate";
+    }
+    );
+
+builder.Services.AddAuthorization();
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Services.AddSingleton<IProductReponsitory, ProductReponsitory>();
-builder.Services.AddSingleton<IOrderRePonsitory, OrderReponsitory>();
+builder.Services.AddTransient<IDataAccess>(sp => new DataAccess(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IShoppingCart, ShoppingCart>();
 builder.Services.AddScoped<IShoppingCartStateStore, ShoppingCartStateStore>();
 
-builder.Services.AddTransient<IViewShoppingCartUseCase, ViewShoppingCartUseCase>();
+builder.Services.AddSingleton<IProductReponsitory, ProductReponsitory>();
+builder.Services.AddSingleton<IOrderRePonsitory, OrderReponsitory>();
 
+builder.Services.AddTransient<IViewShoppingCartUseCase, ViewShoppingCartUseCase>();
 builder.Services.AddTransient<IOrderSevice, OrderSevice>();
 builder.Services.AddTransient<IViewProductUseCases, ViewProductUseCases>();
 builder.Services.AddTransient<ISearchProductUseCases,  SearchProductUseCases>();
@@ -68,6 +84,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

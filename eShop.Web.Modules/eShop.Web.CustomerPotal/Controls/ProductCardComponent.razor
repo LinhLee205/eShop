@@ -1,16 +1,136 @@
-﻿<div class="card m-2 p-2" style="width: 12rem;">
-    <img src="@product.ImageLink" class="card-img-top" alt="" />
-    <div class="card-body">
-        <h5 class="card-title">
-            <NavLink href="@($"product/{product.ProductId}")">@product.Name</NavLink>
-        </h5>
-        <p class="card-text" style="color: darkred">
-            Price: $@product.Price.ToString()
-        </p>
+﻿@inject IAddProductToCartUseCase addProductToCartUseCase
+
+@if (product != null)
+{
+    <div class="card product-card">
+
+        <div class="image-container">
+            <img src="@product.ImageLink"
+                 class="card-img-top product-image"
+                 alt="@product.Name" />
+        </div>
+
+        <div class="card-body product-body">
+
+            <h5 class="card-title product-name">
+                <NavLink href="@($"product/{product.ProductId}")">
+                    @product.Name
+                </NavLink>
+            </h5>
+
+            <p class="product-price">
+                Price: $@product.Price.ToString()
+            </p>
+
+            <button type="button"
+                    class="btn btn-primary add-cart-btn"
+                    @onclick="AddToCart">
+                Add to Cart
+            </button>
+
+        </div>
     </div>
-</div>
+}
 
 @code {
     [Parameter]
     public Product product { get; set; }
+
+    private void AddToCart()
+    {
+        addProductToCartUseCase.Execute(product.ProductId);
+    }
 }
+
+<style>
+
+    /* Card sản phẩm */
+    .product-card {
+        width: 13rem;
+        height: 455px;
+        margin: 8px;
+        padding: 8px;
+        border: 1.5px solid #e1e5e8;
+        border-radius: 18px;
+        background-color: white;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+        /* Rê chuột vào card */
+        .product-card:hover {
+            transform: translateY(-7px);
+            border-color: #86d9a5;
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.20);
+        }
+
+    /* Khu vực ảnh */
+    .image-container {
+        height: 210px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 190px;
+        object-fit: contain;
+        padding: 8px;
+    }
+
+    /* Nội dung card */
+    .product-body {
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+    }
+
+    /* Tên sản phẩm */
+    .product-name {
+        font-size: 16px;
+        line-height: 23px;
+        margin: 0 0 8px 0;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+
+        .product-name a {
+            color: #212529;
+            text-decoration: none;
+        }
+
+            .product-name a:hover {
+                color: #198754;
+            }
+
+    /* Giá */
+    .product-price {
+        color: #d71920;
+        font-size: 16px;
+        font-weight: 600;
+        /* Đẩy giá xuống cùng vị trí */
+        margin-top: auto;
+        margin-bottom: 12px;
+    }
+
+    /* Add to Cart */
+    .add-cart-btn {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .add-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 123, 255, 0.20);
+        }
+
+</style>

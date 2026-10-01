@@ -21,6 +21,6 @@ namespace eShop.Usecases.PluginInterfaces.DataStore
         IEnumerable<Order> GetOutstandingOrders();
         IEnumerable<Order> GetProcessdOrders();
 
-        IEnumerable<Order> GetLineItemsByOrderId(int orderId);
+        IEnumerable<OrderLineItem> GetLineItemsByOrderId(int orderId);
     }
 }

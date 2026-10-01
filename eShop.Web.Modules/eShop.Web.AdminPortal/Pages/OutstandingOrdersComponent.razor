@@ -1,4 +1,7 @@
 ﻿@page "/outstandingorders"
+@page "/admin"
+
+@attribute [Authorize]
 @inject IViewOutstandingOrdersUseCase viewOutstandingOrdersUseCase
 <h3>Outstanding Orders</h3>
 <br />
